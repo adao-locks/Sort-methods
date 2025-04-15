@@ -1,0 +1,92 @@
+algoritmo "SA5 Etapa 2 mergesort"
+
+var
+
+a, t : vetor [1..10] de inteiro
+    i : inteiro
+
+
+//------------------------------------------------------------
+
+funcao calcular_media(prim_idx, ult_idx: inteiro) : inteiro
+inicio
+
+       retorne ((prim_idx + ult_idx + 1) \ 2)
+fimfuncao
+
+
+
+//------------------------------------------------------------
+
+procedimento copiarparatemp(prim_idx, ult_idx: inteiro)
+inicio
+        para i de prim_idx ate ult_idx faca
+             t[i] <- a[i]
+        fimpara
+fimprocedimento
+
+
+
+//------------------------------------------------------------
+
+procedimento put_a ()
+inicio
+        escreval("")
+        para i de 1 ate 10 faca
+             escreva(a[i], " ")
+        fimpara
+fimprocedimento
+
+
+
+
+//------------------------------------------------------------
+
+procedimento msort (prim_idx, ult_idx: inteiro)
+var j, k: inteiro
+    m: inteiro
+    cond: logico
+inicio
+  se prim_idx < ult_idx entao
+     m <- calcular_media(prim_idx, ult_idx)
+     msort(m, ult_idx)
+     msort(prim_idx, m - 1)
+     copiarparatemp(prim_idx, ult_idx)
+     j <- prim_idx
+     k <- m
+     para i de prim_idx ate ult_idx faca
+          se j >= m entao
+             a[i] <- t[k]
+             k <- k + 1
+          senao
+               se k > ult_idx entao
+               a[i] <- t[j]
+                j <- j + 1
+               senao
+                    se t[k] < t[j] entao
+                    a[i] <- t[k]
+                    k <- k + 1
+                    senao
+                         a[i] <- t[j]
+                         j <- j + 1
+                    fimse
+               fimse
+          fimse
+     fimpara
+  fimse
+fimprocedimento
+
+
+
+//------------------------------------------------------------
+
+inicio
+        para i de 1 ate 10 faca
+             a[i] <- 10 - i
+             t[i] <- a[i]
+        fimpara
+        put_a()
+        msort(1, 10)
+        put_a()
+        
+fimalgoritmo
